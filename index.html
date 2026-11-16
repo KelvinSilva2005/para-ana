@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Ana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --ink: #141414;
+    --gray-900: #1c1c1c;
+    --gray-700: #3a3a3a;
+    --gray-500: #7a7a7a;
+    --gray-300: #b8b8b8;
+    --white: #f4f2ee;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grão de filme sutil */
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: .06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- HERO / PÔR DO SOL ---------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 560px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .hero svg.scene {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+  .sun-group {
+    animation: sunset 9s cubic-bezier(.33,.0,.2,1) forwards;
+  }
+  @keyframes sunset {
+    from { transform: translateY(-170px); }
+    to   { transform: translateY(0); }
+  }
+  .reflection line {
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: .15; transform: scaleX(.85); }
+    50% { opacity: .55; transform: scaleX(1); }
+  }
+  .hero-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-top: 14vh;
+    padding: 0 24px;
+    opacity: 0;
+    animation: fadeUp 2.4s ease 1.2s forwards;
+  }
+  .hero-text .eyebrow {
+    font-size: .72rem;
+    letter-spacing: .45em;
+    text-transform: uppercase;
+    color: var(--gray-300);
+    margin-bottom: 18px;
+  }
+  .hero-text h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(5rem, 18vw, 11rem);
+    line-height: .9;
+    letter-spacing: .08em;
+  }
+  .hero-text p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+    color: var(--gray-300);
+    margin-top: 22px;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .scroll-cue {
+    position: absolute;
+    bottom: 34px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--gray-300);
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeUp 1.5s ease 4s forwards;
+  }
+  .scroll-cue span.line {
+    width: 1px; height: 42px;
+    background: linear-gradient(var(--white), transparent);
+    animation: drip 2.2s ease-in-out infinite;
+  }
+  @keyframes drip {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ---------- SEÇÕES ---------- */
+  section { position: relative; padding: 140px 24px; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  .label {
+    font-size: .7rem;
+    letter-spacing: .45em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 40px;
+  }
+  .label::before { content: ""; width: 40px; height: 1px; background: var(--gray-500); }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1.4s ease, transform 1.4s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* Carta */
+  .letter h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    line-height: 1.15;
+    margin-bottom: 48px;
+  }
+  .letter h2 em { color: var(--gray-300); }
+  .letter p {
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 2.4vw, 1.4rem);
+    color: #dcd9d3;
+    margin-bottom: 28px;
+  }
+  .letter .sign {
+    margin-top: 56px;
+    font-style: italic;
+    color: var(--gray-300);
+  }
+
+  /* Divisor horizonte */
+  .horizon {
+    height: 1px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(90deg, transparent, var(--gray-500), transparent);
+  }
+
+  /* Promessas — fundo branco invertido */
+  .promises {
+    background: var(--white);
+    color: var(--black);
+  }
+  .promises .label { color: var(--gray-700); }
+  .promises .label::before { background: var(--gray-700); }
+  .promises h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    line-height: 1.15;
+    margin-bottom: 70px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--black);
+  }
+  .item {
+    padding: 40px 32px 44px 0;
+    border-bottom: 1px solid #cfcbc4;
+  }
+  .item:nth-child(odd) { border-right: 1px solid #cfcbc4; }
+  .item:nth-child(even) { padding-left: 32px; padding-right: 0; }
+  .item .num {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--gray-500);
+    margin-bottom: 14px;
+  }
+  .item h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.9rem;
+    margin-bottom: 10px;
+  }
+  .item p { font-size: .98rem; color: var(--gray-700); }
+
+  /* Citação */
+  .quote {
+    text-align: center;
+    padding: 180px 24px;
+    overflow: hidden;
+  }
+  .quote .mini-sun {
+    width: 120px; height: 60px;
+    margin: 0 auto 50px;
+    border-radius: 120px 120px 0 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--white) 0 6px,
+      transparent 6px 10px
+    );
+    -webkit-mask: linear-gradient(to bottom, #000 30%, rgba(0,0,0,.4));
+            mask: linear-gradient(to bottom, #000 30%, rgba(0,0,0,.4));
+  }
+  .quote blockquote {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1.8rem, 4.6vw, 3rem);
+    line-height: 1.3;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* Pergunta final */
+  .ask {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(to bottom, var(--black) 0%, #161616 55%, #2b2b2b 100%);
+  }
+  .ask h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.4rem, 6.5vw, 4.4rem);
+    line-height: 1.12;
+    margin-bottom: 26px;
+  }
+  .ask .sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--gray-300);
+    margin-bottom: 56px;
+  }
+  .ask .me {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(3rem, 9vw, 5.5rem);
+    line-height: 1;
+    margin: 10px 0 40px;
+    transition-delay: .9s !important;
+  }
+  .end-sun {
+    width: 160px; height: 80px;
+    margin: 0 auto;
+    border-radius: 160px 160px 0 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--white) 0 7px,
+      transparent 7px 12px
+    );
+    box-shadow: 0 0 80px rgba(244,242,238,.18);
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  footer {
+    text-align: center;
+    padding: 50px 24px 60px;
+    font-size: .68rem;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    background: #2b2b2b;
+  }
+
+  @media (max-width: 640px) {
+    section { padding: 100px 22px; }
+    .grid { grid-template-columns: 1fr; }
+    .item, .item:nth-child(even) { padding: 34px 0; border-right: none !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .hero-text, .scroll-cue, .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#050505"/>
+        <stop offset="45%" stop-color="#2a2a2a"/>
+        <stop offset="78%" stop-color="#8d8d8d"/>
+        <stop offset="100%" stop-color="#d9d6d0"/>
+      </linearGradient>
+      <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a1a1a"/>
+        <stop offset="100%" stop-color="#000"/>
+      </linearGradient>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity=".55"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+      </radialGradient>
+      <!-- Faixas horizontais no sol -->
+      <mask id="stripes">
+        <rect x="0" y="0" width="1440" height="900" fill="white"/>
+        <rect x="0" y="608" width="1440" height="5"  fill="black"/>
+        <rect x="0" y="626" width="1440" height="7"  fill="black"/>
+        <rect x="0" y="644" width="1440" height="9"  fill="black"/>
+        <rect x="0" y="662" width="1440" height="11" fill="black"/>
+        <rect x="0" y="680" width="1440" height="13" fill="black"/>
+      </mask>
+      <clipPath id="aboveHorizon">
+        <rect x="0" y="0" width="1440" height="700"/>
+      </clipPath>
+    </defs>
+
+    <rect width="1440" height="700" fill="url(#sky)"/>
+
+    <!-- Nuvens finas -->
+    <g fill="#000" opacity=".35">
+      <rect x="180"  y="430" width="420" height="3" rx="1.5"/>
+      <rect x="260"  y="446" width="260" height="2" rx="1"/>
+      <rect x="880"  y="470" width="380" height="3" rx="1.5"/>
+      <rect x="960"  y="486" width="220" height="2" rx="1"/>
+      <rect x="560"  y="380" width="300" height="2" rx="1"/>
+    </g>
+
+    <g clip-path="url(#aboveHorizon)">
+      <g class="sun-group">
+        <circle cx="720" cy="640" r="260" fill="url(#glow)"/>
+        <circle cx="720" cy="640" r="150" fill="#f4f2ee" mask="url(#stripes)"/>
+      </g>
+    </g>
+
+    <!-- Mar -->
+    <rect y="700" width="1440" height="200" fill="url(#sea)"/>
+    <line x1="0" y1="700" x2="1440" y2="700" stroke="#f4f2ee" stroke-opacity=".5" stroke-width="1"/>
+
+    <!-- Reflexo -->
+    <g class="reflection" stroke="#f4f2ee" stroke-linecap="round">
+      <line x1="610" y1="716" x2="830" y2="716" stroke-width="3" style="transform-origin:720px 716px; animation-delay:0s"/>
+      <line x1="640" y1="734" x2="800" y2="734" stroke-width="2.5" style="transform-origin:720px 734px; animation-delay:.4s"/>
+      <line x1="660" y1="752" x2="780" y2="752" stroke-width="2" style="transform-origin:720px 752px; animation-delay:.8s"/>
+      <line x1="680" y1="772" x2="760" y2="772" stroke-width="2" style="transform-origin:720px 772px; animation-delay:1.2s"/>
+      <line x1="695" y1="794" x2="745" y2="794" stroke-width="1.5" style="transform-origin:720px 794px; animation-delay:1.6s"/>
+      <line x1="705" y1="818" x2="735" y2="818" stroke-width="1.5" style="transform-origin:720px 818px; animation-delay:2s"/>
+    </g>
+  </svg>
+
+  <div class="hero-text">
+    <div class="eyebrow">Feito com calma, para você</div>
+    <h1>ANA</h1>
+    <p>Para quem enxerga beleza no preto e branco<br>e no fim de tarde.</p>
+  </div>
+
+  <a class="scroll-cue" href="#carta">
+    Continue
+    <span class="line"></span>
+  </a>
+</header>
+
+<!-- ============ CARTA ============ -->
+<section id="carta" class="letter">
+  <div class="wrap">
+    <div class="label reveal">Uma carta</div>
+    <h2 class="reveal">Eu poderia ter mandado uma mensagem.<br><em>Mas você merece mais do que isso.</em></h2>
+    <p class="reveal">Ana, eu sei que hoje em dia é fácil demais começar algo e largar no meio. Muita gente fala bonito e some. Por isso eu quis fazer isto aqui com calma, para que você leia no seu tempo e saiba exatamente quem está do outro lado.</p>
+    <p class="reveal">Eu não estou aqui para passar o tempo. Eu gosto de você de verdade, e quando eu gosto de alguém, eu cuido. Eu não vou brincar com os seus sentimentos, não vou te deixar sem resposta e não vou te fazer duvidar do que eu sinto.</p>
+    <p class="reveal">Não tenho pressa. Prefiro construir alguma coisa devagar e com verdade do que rápido e sem base. Se você me deixar, eu quero te conhecer de verdade: o que te faz rir, o que te deixa quieta, e por que o pôr do sol mexe tanto com você.</p>
+    <p class="reveal sign">— Kelvin</p>
+  </div>
+</section>
+
+<div class="horizon"></div>
+
+<!-- ============ PROMESSAS ============ -->
+<section class="promises">
+  <div class="wrap">
+    <div class="label reveal">O que você pode esperar de mim</div>
+    <h2 class="reveal">Não são palavras bonitas.<br>São compromissos.</h2>
+    <div class="grid">
+      <div class="item reveal">
+        <div class="num">01</div>
+        <h3>Verdade</h3>
+        <p>Você nunca vai precisar adivinhar o que eu sinto. Eu falo, mesmo quando for difícil.</p>
+      </div>
+      <div class="item reveal">
+        <div class="num">02</div>
+        <h3>Constância</h3>
+        <p>Não sou de aparecer e sumir. O que eu demonstro hoje, eu demonstro amanhã também.</p>
+      </div>
+      <div class="item reveal">
+        <div class="num">03</div>
+        <h3>Respeito</h3>
+        <p>Pelo seu tempo, pelo seu espaço e pelas suas escolhas. Sempre.</p>
+      </div>
+      <div class="item reveal">
+        <div class="num">04</div>
+        <h3>Cuidado</h3>
+        <p>Com você e com o que você sente. Seus sentimentos não são brincadeira para mim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CITAÇÃO ============ -->
+<section class="quote">
+  <div class="mini-sun reveal"></div>
+  <blockquote class="reveal">
+    “Todo pôr do sol é uma despedida que promete voltar amanhã. É assim que eu quero ser na sua vida: alguém que volta, todos os dias.”
+  </blockquote>
+</section>
+
+<!-- ============ PERGUNTA ============ -->
+<section class="ask">
+  <div class="wrap">
+    <div class="label reveal" style="justify-content:center">Para terminar</div>
+    <h2 class="reveal">Enquanto existir pôr do sol,<br>vai existir alguém pensando em você.</h2>
+    <p class="me reveal">Eu.</p>
+    <p class="sub reveal">Obrigado por ser exatamente quem você é, Ana.</p>
+    <div class="end-sun reveal" aria-hidden="true"></div>
+  </div>
+</section>
+
+<footer>Kelvin &nbsp;·&nbsp; para Ana</footer>
+
+<script>
+  // Revela elementos ao rolar
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.12 + 's';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
