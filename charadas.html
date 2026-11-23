@@ -396,6 +396,184 @@
     z-index: 2;
   }
 
+  /* ---------- HORA DO DIA ---------- */
+  .sky-box {
+    position: relative;
+    width: 100%; max-width: 420px; height: 190px;
+    margin: 0 auto 22px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--gray-500);
+    background: linear-gradient(to bottom, #1a1a1a, #3d3d3d);
+    transition: background 1s ease;
+  }
+  .sky-box .s-sun {
+    position: absolute; left: 50%;
+    width: 64px; height: 64px; margin-left: -32px;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 0 40px 10px rgba(244,242,238,.25);
+    transition: top .5s ease;
+  }
+  .clock {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+  .range {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; max-width: 420px;
+    height: 2px;
+    background: var(--gray-500);
+    outline: none;
+    margin: 10px auto;
+    display: block;
+    touch-action: pan-y;
+  }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--white);
+    cursor: grab;
+    box-shadow: 0 0 14px rgba(244,242,238,.4);
+  }
+  .range::-moz-range-thumb {
+    width: 30px; height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: var(--white);
+    cursor: grab;
+  }
+
+  /* ---------- NUVENS ---------- */
+  .cloud-box {
+    position: relative;
+    width: 100%; max-width: 460px; height: 280px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #262626, #121212);
+    border: 1px solid var(--gray-700);
+    display: flex; align-items: center; justify-content: center;
+    padding: 30px;
+  }
+  .cloud-box .secret {
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .cloud {
+    position: absolute;
+    width: 150px; height: 54px;
+    background: #9a9a9a;
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+    box-shadow: inset 0 -8px 0 rgba(0,0,0,.12);
+    transition: transform 1.2s ease, opacity 1.2s ease;
+  }
+  .cloud::before, .cloud::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+  }
+  .cloud::before { width: 64px; height: 64px; top: -30px; left: 22px; }
+  .cloud::after { width: 48px; height: 48px; top: -20px; left: 74px; }
+  .cloud.gone { transform: translateX(var(--dx, 300px)) translateY(-30px) scale(.8); opacity: 0; pointer-events: none; }
+
+  /* ---------- CHAT ---------- */
+  .phone {
+    width: 100%; max-width: 360px;
+    margin: 0 auto 24px;
+    border: 1px solid var(--gray-700);
+    border-radius: 26px;
+    padding: 18px 16px 22px;
+    background: #121212;
+    text-align: left;
+  }
+  .phone .who {
+    text-align: center;
+    font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gray-500);
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--gray-800);
+  }
+  .msgs { display: flex; flex-direction: column; gap: 8px; min-height: 150px; }
+  .msg {
+    max-width: 78%;
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: .95rem;
+    animation: fadeUp .4s ease both;
+  }
+  .msg.him { background: var(--gray-800); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg.her { background: var(--white); color: var(--black); align-self: flex-end; border-bottom-right-radius: 4px; }
+  .typing { display: inline-flex; gap: 4px; }
+  .typing i {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gray-300);
+    animation: blink 1s infinite;
+  }
+  .typing i:nth-child(2) { animation-delay: .2s; }
+  .typing i:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%,100% { opacity: .2; } 50% { opacity: 1; } }
+  .options.hidden { visibility: hidden; }
+
+  /* ---------- CONSTELAÇÃO ---------- */
+  .sky-svg {
+    width: 100%; max-width: 420px;
+    display: block;
+    margin: 0 auto;
+    background: radial-gradient(ellipse at center, #1c1c1c, #070707);
+    border: 1px solid var(--gray-700);
+    touch-action: manipulation;
+  }
+  .sky-svg .star { fill: var(--gray-300); transition: fill .4s ease, r .4s ease; }
+  .sky-svg .star.on { fill: var(--white); }
+  .sky-svg .star.next { animation: twinkle 1.2s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  .sky-svg .label { fill: var(--gray-500); font-size: 11px; font-family: var(--sans); }
+  .sky-svg .hit { fill: transparent; cursor: pointer; }
+  .sky-svg line { stroke: var(--white); stroke-width: 1.5; stroke-linecap: round; }
+  .sky-svg.complete line { stroke-width: 2.5; filter: drop-shadow(0 0 6px rgba(244,242,238,.8)); transition: stroke-width .8s ease; }
+
+  /* ---------- QUANTO EU GOSTO ---------- */
+  .meter-value {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(3rem, 12vw, 5rem);
+    line-height: 1;
+    margin-bottom: 26px;
+    word-break: break-all;
+  }
+
+  /* ---------- RASPADINHA ---------- */
+  .ticket {
+    position: relative;
+    width: 100%; max-width: 380px; height: 200px;
+    margin: 0 auto;
+    border: 1px dashed var(--gray-300);
+    background: var(--white);
+    color: var(--black);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .ticket .t-small { font-size: .65rem; letter-spacing: .35em; text-transform: uppercase; color: var(--gray-500); }
+  .ticket .t-big { font-family: var(--serif); font-size: 1.9rem; font-weight: 500; line-height: 1.15; margin: 8px 0; }
+  .ticket canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+    transition: opacity 1s ease;
+  }
+  .ticket canvas.cleared { opacity: 0; pointer-events: none; }
+
   /* ---------- FINAL ---------- */
   .end-sun {
     width: 160px; height: 80px;
@@ -404,6 +582,26 @@
     background: repeating-linear-gradient(to bottom, var(--white) 0 7px, transparent 7px 12px);
     border-bottom: 1px solid var(--gray-300);
     box-shadow: 0 0 80px rgba(244,242,238,.18);
+  }
+  .final-photo {
+    width: 220px;
+    margin: 0 auto 50px;
+    background: var(--white);
+    padding: 10px 10px 40px;
+    transform: rotate(-3deg);
+    box-shadow: 0 24px 50px rgba(0,0,0,.6);
+    animation: dropIn 1.4s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .final-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-40px) rotate(-12deg); }
+    to { opacity: 1; transform: translateY(0) rotate(-3deg); }
   }
   .final h2 {
     font-family: var(--serif);
@@ -457,7 +655,7 @@
   // ---------------- AS CHARADAS ----------------
   const levels = [
     {
-      // 1 — Pôr do sol escondido no canto
+      // Pôr do sol escondido no canto
       text: `Eu apareço todo fim de tarde, deixo o céu lindo e vou embora sem me despedir.<br><em>(O Kelvin não faz isso, fica tranquila.)</em><br>Eu estou escondido nesta tela. Me acha e me dá um toque.`,
       hint: "Olha bem nos cantos da tela...",
       win: { big: "O pôr do sol.", note: "Você achou. Agora imagina ele com a gente assistindo junto." },
@@ -490,7 +688,7 @@
       }
     },
     {
-      // 2 — Escolher a cor certa
+      // Escolher a cor certa
       text: `Alguém deixou esta charada <em>colorida demais</em>. Eu sei que você não ia aprovar.<br>Escolhe a única cor que combina com você.`,
       hint: "É a cor deste site inteiro. Ou melhor, a falta dela.",
       win: { big: "Preto e branco.", note: "Agora sim. Simples, elegante e atemporal, igual a você." },
@@ -520,7 +718,56 @@
       }
     },
     {
-      // 3 — Coração que acelera
+      // Hora do dia
+      text: `Vou te dar o controle do tempo.<br>Arrasta até a <em>hora do dia</em> que você mais gosta.`,
+      hint: "Aquela hora em que o céu fica bonito e o sol vai embora.",
+      win: { big: "Fim de tarde.", note: "A hora em que o céu fica mais bonito, e em que eu mais penso em você." },
+      build(area, solve, say) {
+        area.innerHTML = `
+          <div class="sky-box" id="skyBox"><div class="s-sun" id="sSun"></div></div>
+          <div class="clock" id="clock">12h</div>
+          <input class="range" id="hour" type="range" min="6" max="18" step="1" value="12" aria-label="Hora do dia">`;
+        const range = area.querySelector('#hour');
+        const clock = area.querySelector('#clock');
+        const sun = area.querySelector('#sSun');
+        const sky = area.querySelector('#skyBox');
+        const lines = {
+          6: "6h? Nem o galo acordou ainda.",
+          7: "7h. Cedo demais pra romance.",
+          8: "Hora do café. Bom, mas não é essa.",
+          9: "9h. Todo mundo trabalhando...",
+          10: "10h. Nada de especial aqui.",
+          11: "Quase meio-dia. Quente.",
+          12: "Meio-dia: sol de rachar. Passa protetor.",
+          13: "Hora da preguiça pós-almoço.",
+          14: "14h. Ninguém é romântico às 14h.",
+          15: "Hora do cafezinho da tarde. Tá chegando...",
+          16: "Esquentando... quer dizer, esfriando.",
+          17: "Quase lá! Mais um pouquinho."
+        };
+        let done = false;
+        const update = () => {
+          const h = +range.value;
+          clock.textContent = h + 'h';
+          const top = 10 + Math.abs(h - 12) / 6 * 75;
+          sun.style.top = (h === 18 ? 100 : top) + '%';
+          const light = 60 - Math.abs(h - 12) * 7;
+          sky.style.background = `linear-gradient(to bottom, rgb(${light/3},${light/3},${light/3}), rgb(${light},${light},${light}))`;
+          if (h === 18 && !done) {
+            done = true;
+            clock.textContent = '18h';
+            setTimeout(solve, 900);
+          } else if (!done) {
+            say(lines[h]);
+          }
+        };
+        range.addEventListener('input', update);
+        update();
+        say("");
+      }
+    },
+    {
+      // Coração que acelera
       text: `Tem uma coisa aqui que fica <em>doida</em> toda vez que você chega perto.<br>Clica nela algumas vezes e vê o que acontece.`,
       hint: "Ela fica do lado esquerdo do meu peito.",
       win: { big: "O meu coração.", note: "É exatamente isso que acontece quando o seu nome aparece no meu celular." },
@@ -555,7 +802,32 @@
       }
     },
     {
-      // 4 — Montar o nome
+      // Nuvens
+      text: `Umas nuvens chegaram e estão escondendo uma coisa que eu queria te dizer.<br>Sopra elas pra longe <em>(toca nelas)</em>.`,
+      hint: "Toca em cada nuvem cinza até o céu ficar limpo.",
+      win: { big: "Céu limpo.", note: "Comigo é assim: nada escondido, nada pela metade." },
+      build(area, solve, say) {
+        const clouds = [
+          [-4, 18], [42, 6], [8, 46], [50, 40], [20, 70], [58, 72]
+        ];
+        area.innerHTML = `
+          <div class="cloud-box" id="cBox">
+            <p class="secret">Nada vai esconder<br>o que eu sinto por você.</p>
+            ${clouds.map(([l, t], i) => `<button class="cloud" aria-label="Nuvem ${i + 1}" style="left:${l}%;top:${t}%;--dx:${i % 2 ? 320 : -320}px"></button>`).join('')}
+          </div>`;
+        const lines = ["Fuuu!", "Essa foi fácil.", "Mais um sopro...", "Essa era teimosa.", "Tá quase limpo!", ""];
+        let gone = 0;
+        area.querySelectorAll('.cloud').forEach(c => c.addEventListener('click', () => {
+          if (c.classList.contains('gone')) return;
+          c.classList.add('gone');
+          say(lines[gone]);
+          gone++;
+          if (gone === clouds.length) setTimeout(solve, 1300);
+        }));
+      }
+    },
+    {
+      // Montar o nome
       text: `Sou um nome de três letras que dá pra ler <em>de trás pra frente</em> e continua perfeito.<br>As letras caíram aqui embaixo. Monta pra mim.`,
       hint: "É o nome da pessoa mais bonita lendo isto agora.",
       win: { big: "ANA.", note: "De frente, de trás pra frente, de qualquer jeito: o nome mais bonito que eu conheço." },
@@ -600,7 +872,59 @@
       }
     },
     {
-      // 5 — Lanterna no escuro
+      // Chat
+      text: `Eu te mandei mensagem. Olha que fofo.<br>Agora <em>responde direito</em>.`,
+      hint: "Responde do jeito que você gostaria que eu respondesse.",
+      win: { big: "Respondeu certo.", note: "E eu respondo sempre, viu? Comigo não tem vácuo." },
+      build(area, solve, say) {
+        area.innerHTML = `
+          <div class="phone">
+            <div class="who">Kelvin</div>
+            <div class="msgs" id="msgs"></div>
+          </div>
+          <div class="options hidden" id="chatOpts">
+            <button class="btn ghost" data-r="kkk">kkkkk</button>
+            <button class="btn ghost" data-r="joinha">Mandar um joinha</button>
+            <button class="btn ghost" data-r="vacuo">Visualizar e não responder</button>
+            <button class="btn ghost" data-r="certo">"Também pensei em você"</button>
+          </div>`;
+        const msgs = area.querySelector('#msgs');
+        const opts = area.querySelector('#chatOpts');
+        const script = ["oi", "tava vendo o pôr do sol agora", "e adivinha em quem eu pensei"];
+        const timers = [];
+
+        function typeMsg(text, delay) {
+          timers.push(setTimeout(() => {
+            const t = document.createElement('div');
+            t.className = 'msg him';
+            t.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
+            msgs.appendChild(t);
+            timers.push(setTimeout(() => { t.textContent = text; }, 900));
+          }, delay));
+        }
+        script.forEach((m, i) => typeMsg(m, 400 + i * 1600));
+        timers.push(setTimeout(() => opts.classList.remove('hidden'), 400 + script.length * 1600));
+
+        const lines = {
+          kkk: "kkkkk? Eu abri meu coração e ganhei um kkkkk?",
+          joinha: "Joinha é o que a gente manda pro chefe, Ana.",
+          vacuo: "Visualizar e não responder deveria ser crime."
+        };
+        opts.querySelectorAll('[data-r]').forEach(b => b.addEventListener('click', () => {
+          if (b.dataset.r !== 'certo') { say(lines[b.dataset.r]); return; }
+          opts.querySelectorAll('button').forEach(x => x.disabled = true);
+          const her = document.createElement('div');
+          her.className = 'msg her';
+          her.textContent = 'também pensei em você';
+          msgs.appendChild(her);
+          typeMsg("eu sabia", 700);
+          timers.push(setTimeout(solve, 2600));
+        }));
+        return () => timers.forEach(clearTimeout);
+      }
+    },
+    {
+      // Lanterna no escuro
       text: `Ficou escuro. Mas eu escondi aqui a coisa que <em>mais brilha</em> na minha vida.<br>Usa o dedo (ou o mouse) como lanterna e encontra.`,
       hint: "Não é um objeto. É uma pessoa. E ela está segurando o celular agora.",
       win: { big: "Você.", note: "Era você esse tempo todo." },
@@ -654,7 +978,106 @@
       }
     },
     {
-      // 6 — Quem pensa em você
+      // Constelação
+      text: `O céu ficou estrelado.<br>Liga as estrelas <em>na ordem dos números</em> e descobre o desenho.`,
+      hint: "Começa pela estrela 1, que está piscando.",
+      win: { big: "Um coração.", note: "Até as estrelas já sabem o que eu sinto." },
+      build(area, solve, say) {
+        // Pontos de um coração (curva paramétrica)
+        const N = 10;
+        const pts = [];
+        for (let k = 0; k < N; k++) {
+          const t = Math.PI + (k / N) * 2 * Math.PI;
+          const x = 16 * Math.pow(Math.sin(t), 3);
+          const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+          pts.push([200 + x * 8, 126 - y * 8]);
+        }
+        // Estrelas de enfeite
+        const deco = Array.from({ length: 26 }, () => [Math.random() * 400, Math.random() * 300, Math.random() * 1.2 + .4]);
+        area.innerHTML = `
+          <svg class="sky-svg" id="skySvg" viewBox="0 0 400 300">
+            ${deco.map(([x, y, r]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="#555"/>`).join('')}
+            <g id="lines"></g>
+            ${pts.map(([x, y], i) => `
+              <circle class="star ${i === 0 ? 'next' : ''}" data-i="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4"/>
+              <text class="label" x="${(x + 8).toFixed(1)}" y="${(y - 8).toFixed(1)}">${i + 1}</text>
+              <circle class="hit" data-i="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="18"/>
+            `).join('')}
+          </svg>`;
+        const svg = area.querySelector('#skySvg');
+        const linesG = area.querySelector('#lines');
+        const stars = [...svg.querySelectorAll('.star')];
+        let next = 0;
+
+        function drawLine(a, b) {
+          const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          l.setAttribute('x1', pts[a][0]); l.setAttribute('y1', pts[a][1]);
+          l.setAttribute('x2', pts[b][0]); l.setAttribute('y2', pts[b][1]);
+          linesG.appendChild(l);
+        }
+
+        svg.querySelectorAll('.hit').forEach(h => h.addEventListener('click', () => {
+          const i = +h.dataset.i;
+          if (next >= N) return;
+          if (i !== next) {
+            say(i < next ? "Essa você já ligou." : "Essa não é a próxima. Olha o número.");
+            return;
+          }
+          stars[i].classList.remove('next');
+          stars[i].classList.add('on');
+          if (i > 0) drawLine(i - 1, i);
+          next++;
+          if (next < N) {
+            stars[next].classList.add('next');
+            say("");
+          } else {
+            drawLine(N - 1, 0);
+            svg.classList.add('complete');
+            setTimeout(solve, 1200);
+          }
+        }));
+      }
+    },
+    {
+      // Quanto eu gosto de você
+      text: `Quanto eu gosto de você?<br>Arrasta até o <em>máximo</em> pra descobrir.`,
+      hint: "Continua arrastando até o fim. Quantas vezes for preciso.",
+      win: { big: "Infinito.", note: "E ainda acho pouco." },
+      build(area, solve, say) {
+        area.innerHTML = `
+          <div class="meter-value" id="mVal">0%</div>
+          <input class="range" id="meter" type="range" min="0" max="100" step="1" value="0" aria-label="Quanto eu gosto de você">`;
+        const range = area.querySelector('#meter');
+        const val = area.querySelector('#mVal');
+        const stages = [
+          { max: 100, line: "Achou que era 100%? Achou errado." },
+          { max: 1000, line: "Mil? Ainda tá longe." },
+          { max: 100000, line: "Para de chutar baixo, Ana." },
+          { max: 10000000, line: "Tá bom, vou mostrar de verdade..." }
+        ];
+        let st = 0, done = false;
+        range.addEventListener('input', () => {
+          if (done) return;
+          const v = +range.value;
+          val.textContent = v.toLocaleString('pt-BR') + '%';
+          if (v >= +range.max) {
+            say(stages[st].line);
+            st++;
+            if (st < stages.length) {
+              range.max = stages[st].max;
+              range.step = stages[st].max / 100;
+            } else {
+              done = true;
+              range.disabled = true;
+              val.textContent = '∞';
+              setTimeout(solve, 1100);
+            }
+          }
+        });
+      }
+    },
+    {
+      // Quem pensa em você
       text: `Quem é que pensa em você todo fim de tarde, quando o sol vai embora?`,
       hint: "Leia de novo o final da primeira página.",
       win: { big: "Eu.", note: "Hoje, amanhã e em todo fim de tarde." },
@@ -678,7 +1101,80 @@
       }
     },
     {
-      // 7 — Pegadinha final
+      // Raspadinha
+      text: `Parabéns, você ganhou uma <em>raspadinha</em>!<br>Raspa com o dedo pra ver o prêmio.`,
+      hint: "Passa o dedo por cima da parte cinza, como uma raspadinha de verdade.",
+      win: { big: "Prêmio garantido.", note: "Pode cobrar quando quiser. Esse cupom não vence." },
+      build(area, solve, say) {
+        area.innerHTML = `
+          <div class="ticket" id="ticket">
+            <div class="t-small">Vale</div>
+            <div class="t-big">Um pôr do sol<br>do meu lado</div>
+            <div class="t-small">Validade: pra sempre</div>
+            <canvas id="scratch"></canvas>
+          </div>`;
+        const canvas = area.querySelector('#scratch');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.scale(dpr, dpr);
+
+        // Camada cinza para raspar
+        ctx.fillStyle = '#8a8a8a';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#6e6e6e';
+        for (let i = 0; i < 400; i++) ctx.fillRect(Math.random() * w, Math.random() * h, 2, 2);
+        ctx.fillStyle = '#f4f2ee';
+        ctx.font = '500 13px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('R A S P E   A Q U I', w / 2, h / 2 + 4);
+
+        let drawing = false, last = null, done = false, strokes = 0;
+        const pos = (e) => {
+          const r = canvas.getBoundingClientRect();
+          return [e.clientX - r.left, e.clientY - r.top];
+        };
+        const scratch = (p) => {
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.lineWidth = 34;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(...(last || p));
+          ctx.lineTo(...p);
+          ctx.stroke();
+          last = p;
+        };
+        const check = () => {
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+          let clear = 0;
+          for (let i = 3; i < data.length; i += 16) if (data[i] === 0) clear++;
+          const pct = clear / (data.length / 16);
+          if (pct > .4 && !done) {
+            done = true;
+            canvas.classList.add('cleared');
+            setTimeout(solve, 1000);
+          } else if (pct > .2 && strokes === 1) {
+            say("Tá aparecendo alguma coisa...");
+          }
+        };
+        canvas.addEventListener('pointerdown', (e) => {
+          drawing = true; last = null;
+          canvas.setPointerCapture(e.pointerId);
+          scratch(pos(e));
+        });
+        canvas.addEventListener('pointermove', (e) => { if (drawing) scratch(pos(e)); });
+        const end = () => {
+          if (!drawing) return;
+          drawing = false; last = null; strokes++;
+          check();
+        };
+        canvas.addEventListener('pointerup', end);
+        canvas.addEventListener('pointercancel', end);
+      }
+    },
+    {
+      // Pegadinha final
       text: `Última, e essa é a mais difícil.<br>O que eu quero com você?`,
       hint: "Não tem resposta errada nesta aqui.",
       win: { big: "Pegadinha.", note: "Era tudo isso. E mais um pouco." },
@@ -771,7 +1267,9 @@
     stage.style.animation = '';
     stage.innerHTML = `
       <div class="final">
-        <div class="end-sun" aria-hidden="true"></div>
+        <figure class="final-photo">
+          <img src="assets/nos.jpg" alt="Ana e Kelvin juntos, foto em preto e branco">
+        </figure>
         <h2>Você descobriu todas.</h2>
         <p>Mas a resposta mais importante você já sabia:<br>é você que eu escolho.</p>
         <div class="row">

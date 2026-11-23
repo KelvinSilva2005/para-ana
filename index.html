@@ -239,6 +239,74 @@
   }
   .item p { font-size: .98rem; color: var(--gray-700); }
 
+  /* Nós — foto e vídeo */
+  .us { padding-top: 160px; }
+  .us .wrap { max-width: 980px; }
+  .us h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    line-height: 1.15;
+    margin-bottom: 70px;
+  }
+  .us h2 em { color: var(--gray-300); }
+  .gallery {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .polaroid {
+    background: var(--white);
+    padding: 14px 14px 64px;
+    transform: rotate(-2deg);
+    box-shadow: 0 30px 60px rgba(0,0,0,.6);
+    position: relative;
+    transition: transform .8s ease;
+  }
+  .polaroid:hover { transform: rotate(0deg) scale(1.01); }
+  .polaroid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .polaroid figcaption {
+    position: absolute; left: 0; right: 0; bottom: 18px;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--black);
+  }
+  .video-card {
+    border: 1px solid var(--gray-700);
+    border-radius: 28px;
+    padding: 12px;
+    background: #111;
+    transform: rotate(1.5deg);
+    max-width: 340px;
+    justify-self: center;
+    width: 100%;
+  }
+  .video-card video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    border-radius: 18px;
+    background: #000;
+  }
+  .video-card p {
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--gray-300);
+    padding: 14px 8px 6px;
+  }
+
   /* Citação */
   .quote {
     text-align: center;
@@ -322,6 +390,10 @@
     background: #2b2b2b;
   }
 
+  @media (max-width: 760px) {
+    .gallery { grid-template-columns: 1fr; gap: 70px; }
+    .polaroid { max-width: 420px; margin: 0 auto; }
+  }
   @media (max-width: 640px) {
     section { padding: 100px 22px; }
     .grid { grid-template-columns: 1fr; }
@@ -455,6 +527,24 @@
         <div class="num">04</div>
         <h3>Cuidado</h3>
         <p>Com você e com o que você sente. Seus sentimentos não são brincadeira para mim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NÓS ============ -->
+<section class="us">
+  <div class="wrap">
+    <div class="label reveal">Nós</div>
+    <h2 class="reveal">Algumas lembranças<br><em>que eu guardo com carinho.</em></h2>
+    <div class="gallery">
+      <figure class="polaroid reveal">
+        <img src="assets/nos.jpg" alt="Ana e Kelvin juntos, foto em preto e branco" loading="lazy">
+        <figcaption>Sol no rosto, você do meu lado.</figcaption>
+      </figure>
+      <div class="video-card reveal">
+        <video src="assets/video.mp4" poster="assets/poster.jpg" controls playsinline preload="metadata"></video>
+        <p>E esse é só o começo.</p>
       </div>
     </div>
   </div>
