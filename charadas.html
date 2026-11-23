@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charadas para Ana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --gray-900: #1c1c1c;
+    --gray-800: #242424;
+    --gray-700: #3a3a3a;
+    --gray-500: #7a7a7a;
+    --gray-300: #b8b8b8;
+    --white: #f4f2ee;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: .06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- TOPO ---------- */
+  .back {
+    position: fixed;
+    top: 22px; left: 22px;
+    z-index: 50;
+    font-size: .68rem;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--gray-300);
+    text-decoration: none;
+    padding: 10px 14px;
+    background: rgba(10,10,10,.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--gray-700);
+    transition: color .4s ease, border-color .4s ease;
+  }
+  .back:hover, .back:focus-visible { color: var(--white); border-color: var(--white); outline: none; }
+
+  header {
+    min-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    background: linear-gradient(to bottom, #2b2b2b 0%, #141414 55%, var(--black) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .top-sun {
+    width: 140px; height: 70px;
+    border-radius: 140px 140px 0 0;
+    background: repeating-linear-gradient(to bottom, var(--white) 0 6px, transparent 6px 11px);
+    border-bottom: 1px solid var(--gray-300);
+    box-shadow: 0 0 80px rgba(244,242,238,.15);
+    margin-bottom: 46px;
+    animation: rise 3s cubic-bezier(.33,0,.2,1) forwards;
+    opacity: 0;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .eyebrow {
+    font-size: .72rem;
+    letter-spacing: .45em;
+    text-transform: uppercase;
+    color: var(--gray-300);
+    margin-bottom: 18px;
+  }
+  header h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(3rem, 10vw, 6rem);
+    line-height: 1;
+  }
+  header p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+    color: var(--gray-300);
+    margin-top: 22px;
+    max-width: 520px;
+  }
+  .progress {
+    margin-top: 44px;
+    font-size: .7rem;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+  .progress-bar {
+    width: 220px; height: 1px;
+    background: var(--gray-700);
+    margin: 14px auto 0;
+    position: relative;
+  }
+  .progress-bar span {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 0%;
+    background: var(--white);
+    transition: width 1s ease;
+  }
+
+  /* ---------- CHARADAS ---------- */
+  main { padding: 40px 24px 120px; }
+  .list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
+
+  .card {
+    border: 1px solid var(--gray-700);
+    background: linear-gradient(to bottom, var(--gray-900), var(--black));
+    padding: 44px 40px 40px;
+    position: relative;
+    transition: border-color .8s ease;
+  }
+  .card.solved { border-color: var(--gray-300); }
+  .card .num {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--gray-500);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .card .num::after { content: ""; flex: 1; height: 1px; background: var(--gray-700); }
+  .card .riddle {
+    font-family: var(--serif);
+    font-size: clamp(1.35rem, 3vw, 1.7rem);
+    line-height: 1.45;
+    margin-bottom: 30px;
+  }
+
+  .guess {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .guess input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--gray-500);
+    color: var(--white);
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    padding: 10px 2px;
+    outline: none;
+    transition: border-color .4s ease;
+  }
+  .guess input::placeholder { color: var(--gray-500); font-style: italic; }
+  .guess input:focus { border-color: var(--white); }
+  .guess input.wrong { animation: shake .45s ease; border-color: var(--gray-300); }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .btn {
+    font-family: var(--sans);
+    font-size: .7rem;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border: 1px solid var(--white);
+    background: var(--white);
+    color: var(--black);
+    cursor: pointer;
+    transition: background .4s ease, color .4s ease;
+    white-space: nowrap;
+  }
+  .btn:hover, .btn:focus-visible { background: transparent; color: var(--white); outline: none; }
+
+  .actions { display: flex; gap: 22px; flex-wrap: wrap; }
+  .link {
+    background: none; border: none;
+    color: var(--gray-300);
+    font-family: var(--sans);
+    font-size: .68rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: color .4s ease, border-color .4s ease;
+  }
+  .link:hover, .link:focus-visible { color: var(--white); border-color: var(--white); outline: none; }
+
+  .feedback {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gray-300);
+    font-size: 1.1rem;
+    min-height: 1.6em;
+    margin-top: 8px;
+  }
+  .hint {
+    display: none;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gray-300);
+    font-size: 1.15rem;
+    margin-top: 14px;
+    padding-left: 16px;
+    border-left: 1px solid var(--gray-500);
+  }
+  .hint.show { display: block; animation: fadeUp .8s ease forwards; }
+
+  .reveal-box {
+    display: none;
+    margin-top: 10px;
+    padding-top: 28px;
+    border-top: 1px solid var(--gray-700);
+  }
+  .reveal-box.show { display: block; animation: fadeUp 1.2s ease forwards; }
+  .reveal-box .answer {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .reveal-box .note {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: #dcd9d3;
+  }
+  .card.solved .guess, .card.solved .actions, .card.solved .feedback { display: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- FINAL ---------- */
+  .final {
+    display: none;
+    max-width: 720px;
+    margin: 90px auto 0;
+    text-align: center;
+  }
+  .final.show { display: block; animation: fadeUp 1.6s ease forwards; }
+  .final .end-sun {
+    width: 160px; height: 80px;
+    margin: 0 auto 46px;
+    border-radius: 160px 160px 0 0;
+    background: repeating-linear-gradient(to bottom, var(--white) 0 7px, transparent 7px 12px);
+    border-bottom: 1px solid var(--gray-300);
+    box-shadow: 0 0 80px rgba(244,242,238,.18);
+  }
+  .final h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+  .final p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--gray-300);
+    margin-bottom: 50px;
+  }
+  .final .btn { text-decoration: none; display: inline-block; padding: 18px 40px; }
+
+  footer {
+    text-align: center;
+    padding: 50px 24px 60px;
+    font-size: .68rem;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+
+  @media (max-width: 640px) {
+    .card { padding: 34px 22px 30px; }
+    .guess { flex-direction: column; }
+    .guess .btn { width: 100%; }
+    .back { top: 14px; left: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .top-sun { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Voltar</a>
+
+<header>
+  <div class="top-sun" aria-hidden="true"></div>
+  <div class="eyebrow">Parte dois</div>
+  <h1>Charadas para Ana</h1>
+  <p>Cada resposta diz um pouco do que eu sinto. Tente adivinhar — e se ficar difícil, tem dica.</p>
+  <div class="progress">
+    <span id="count">0</span> de <span id="total">0</span> descobertas
+    <div class="progress-bar"><span id="bar"></span></div>
+  </div>
+</header>
+
+<main>
+  <div class="list" id="list"></div>
+
+  <div class="final" id="final">
+    <div class="end-sun" aria-hidden="true"></div>
+    <h2>Você descobriu todas.</h2>
+    <p>Mas a resposta mais importante você já sabia:<br>é você que eu escolho.</p>
+    <a class="btn" href="index.html">Voltar ao começo</a>
+  </div>
+</main>
+
+<footer>Kelvin &nbsp;·&nbsp; para Ana</footer>
+
+<script>
+  // Cada charada: pergunta, respostas aceitas, dica, resposta exibida e recado
+  const riddles = [
+    {
+      q: "Sou o fim do dia, mas não sou triste. Pinto o céu antes de ir embora e sempre prometo voltar amanhã. O que sou?",
+      answers: ["por do sol", "pordosol", "o por do sol", "crepusculo", "entardecer", "fim de tarde"],
+      hint: "Você ama me ver da janela, no fim da tarde.",
+      answer: "O pôr do sol",
+      note: "E, assim como ele, eu também volto todos os dias."
+    },
+    {
+      q: "Não tenho nenhuma cor, mas guardo as fotos mais bonitas e os filmes mais clássicos. Mesmo assim, você me acha perfeito. O que sou?",
+      answers: ["preto e branco", "preto branco", "o preto e branco", "pb", "p&b", "preto & branco"],
+      hint: "É o estilo deste site inteiro.",
+      answer: "O preto e branco",
+      note: "Simples, elegante e atemporal. Igual a você."
+    },
+    {
+      q: "Tenho três letras. Começo e termino do mesmo jeito, posso ser lida de trás pra frente e sou o nome mais bonito que eu conheço. Quem sou?",
+      answers: ["ana"],
+      hint: "Você escreve ele todo dia, sem perceber.",
+      answer: "Ana",
+      note: "De frente ou de trás pra frente, continua perfeito."
+    },
+    {
+      q: "Não faço barulho para ninguém, mas disparo toda vez que o seu nome aparece na tela do meu celular. O que sou?",
+      answers: ["coracao", "meu coracao", "o coracao", "o meu coracao"],
+      hint: "Fico do lado esquerdo do peito.",
+      answer: "O meu coração",
+      note: "E ele não está brincando. Nem eu."
+    },
+    {
+      q: "Não se compra, não se força e não nasce pronta. Se constrói devagar, um dia de cada vez — e é o que eu mais quero ter com você. O que é?",
+      answers: ["confianca", "a confianca"],
+      hint: "É a base de tudo que é sério.",
+      answer: "Confiança",
+      note: "Eu quero construir isso com você, sem pressa e com verdade."
+    },
+    {
+      q: "Quanto mais eu dou, mais eu tenho. Não acaba, não cansa e não pede nada em troca. O que é?",
+      answers: ["carinho", "o carinho", "amor", "o amor", "afeto", "cuidado"],
+      hint: "Você recebe um pouco dele em cada linha deste site.",
+      answer: "Carinho",
+      note: "E o meu por você só aumenta."
+    },
+    {
+      q: "Enquanto existir pôr do sol, sempre vai existir alguém pensando em você. Quem é?",
+      answers: ["eu", "kelvin", "o kelvin", "e o kelvin", "sou eu", "e voce kelvin"],
+      hint: "Leia de novo o final da primeira página.",
+      answer: "Eu.",
+      note: "Hoje, amanhã e em todo fim de tarde."
+    }
+  ];
+
+  const list = document.getElementById('list');
+  const countEl = document.getElementById('count');
+  const bar = document.getElementById('bar');
+  const finalEl = document.getElementById('final');
+  document.getElementById('total').textContent = riddles.length;
+  let solved = 0;
+
+  // Remove acentos, pontuação e espaços extras para comparar respostas
+  function normalize(text) {
+    return text
+      .toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9& ]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  const wrongMessages = [
+    "Quase... tenta mais uma vez.",
+    "Não é bem isso. Pensa com o coração.",
+    "Hmm, chegou perto. Quer uma dica?",
+    "Ainda não. Mas eu gosto de te ver tentando."
+  ];
+
+  function markSolved(card) {
+    if (card.classList.contains('solved')) return;
+    card.classList.add('solved');
+    card.querySelector('.reveal-box').classList.add('show');
+    solved++;
+    countEl.textContent = solved;
+    bar.style.width = (solved / riddles.length * 100) + '%';
+    if (solved === riddles.length) {
+      setTimeout(() => {
+        finalEl.classList.add('show');
+        finalEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 1200);
+    }
+  }
+
+  riddles.forEach((r, i) => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="num">${String(i + 1).padStart(2, '0')}</div>
+      <p class="riddle">${r.q}</p>
+      <form class="guess">
+        <input type="text" placeholder="Sua resposta..." aria-label="Resposta da charada ${i + 1}" autocomplete="off">
+        <button class="btn" type="submit">Responder</button>
+      </form>
+      <div class="actions">
+        <button class="link hint-btn" type="button">Quero uma dica</button>
+        <button class="link show-btn" type="button">Ver resposta</button>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+      <p class="hint">${r.hint}</p>
+      <div class="reveal-box">
+        <div class="answer">${r.answer}</div>
+        <p class="note">${r.note}</p>
+      </div>
+    `;
+
+    const form = card.querySelector('form');
+    const input = card.querySelector('input');
+    const feedback = card.querySelector('.feedback');
+    const accepted = r.answers.map(normalize);
+    let tries = 0;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const guess = normalize(input.value);
+      if (!guess) return;
+      if (accepted.includes(guess)) {
+        markSolved(card);
+      } else {
+        feedback.textContent = wrongMessages[tries % wrongMessages.length];
+        tries++;
+        input.classList.remove('wrong');
+        void input.offsetWidth;
+        input.classList.add('wrong');
+      }
+    });
+
+    card.querySelector('.hint-btn').addEventListener('click', () => {
+      card.querySelector('.hint').classList.add('show');
+    });
+
+    card.querySelector('.show-btn').addEventListener('click', () => markSolved(card));
+
+    list.appendChild(card);
+  });
+</script>
+</body>
+</html>

@@ -164,6 +164,34 @@
     color: var(--gray-300);
   }
 
+  /* Botão para as charadas */
+  .riddle-cta {
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--gray-700);
+  }
+  .riddle-cta p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--gray-300);
+    margin-bottom: 24px;
+  }
+  .btn-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: .75rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 18px 38px;
+    border: 1px solid var(--white);
+    background: var(--white);
+    color: var(--black);
+    transition: background .5s ease, color .5s ease;
+  }
+  .btn-link:hover, .btn-link:focus-visible { background: transparent; color: var(--white); outline: none; }
+
   /* Divisor horizonte */
   .horizon {
     height: 1px;
@@ -393,6 +421,10 @@
     <p class="reveal">Eu não estou aqui para passar o tempo. Eu gosto de você de verdade, e quando eu gosto de alguém, eu cuido. Eu não vou brincar com os seus sentimentos, não vou te deixar sem resposta e não vou te fazer duvidar do que eu sinto.</p>
     <p class="reveal">Não tenho pressa. Prefiro construir alguma coisa devagar e com verdade do que rápido e sem base. Se você me deixar, eu quero te conhecer de verdade: o que te faz rir, o que te deixa quieta, e por que o pôr do sol mexe tanto com você.</p>
     <p class="reveal sign">— Kelvin</p>
+    <div class="reveal riddle-cta">
+      <p>Ah, e eu deixei umas charadas para você.</p>
+      <a class="btn-link" href="charadas.html">Descobrir as charadas &nbsp;→</a>
+    </div>
   </div>
 </section>
 
