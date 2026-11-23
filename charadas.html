@@ -20,13 +20,13 @@
     --sans: 'Inter', system-ui, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
   body {
     background: var(--black);
     color: var(--white);
     font-family: var(--sans);
     font-weight: 300;
-    line-height: 1.7;
+    line-height: 1.6;
+    min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
@@ -38,169 +38,86 @@
     opacity: .06;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+  button { font-family: inherit; }
 
-  /* ---------- TOPO ---------- */
+  /* ---------- BARRA DO TOPO ---------- */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 40;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px;
+    background: linear-gradient(to bottom, rgba(10,10,10,.95), rgba(10,10,10,0));
+  }
   .back {
-    position: fixed;
-    top: 22px; left: 22px;
-    z-index: 50;
     font-size: .68rem;
     letter-spacing: .35em;
     text-transform: uppercase;
     color: var(--gray-300);
     text-decoration: none;
     padding: 10px 14px;
-    background: rgba(10,10,10,.6);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     border: 1px solid var(--gray-700);
     transition: color .4s ease, border-color .4s ease;
   }
   .back:hover, .back:focus-visible { color: var(--white); border-color: var(--white); outline: none; }
+  .dots { display: flex; gap: 8px; }
+  .dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1px solid var(--gray-500);
+    transition: background .6s ease, border-color .6s ease, transform .6s ease;
+  }
+  .dots span.done { background: var(--white); border-color: var(--white); }
+  .dots span.current { transform: scale(1.4); border-color: var(--white); }
 
-  header {
-    min-height: 78vh;
+  /* ---------- PALCO ---------- */
+  main {
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 110px 22px 90px;
+  }
+  .stage {
+    width: 100%;
+    max-width: 680px;
     text-align: center;
-    padding: 120px 24px 80px;
-    background: linear-gradient(to bottom, #2b2b2b 0%, #141414 55%, var(--black) 100%);
-    position: relative;
-    overflow: hidden;
+    animation: fadeUp 1s ease both;
   }
-  .top-sun {
-    width: 140px; height: 70px;
-    border-radius: 140px 140px 0 0;
-    background: repeating-linear-gradient(to bottom, var(--white) 0 6px, transparent 6px 11px);
-    border-bottom: 1px solid var(--gray-300);
-    box-shadow: 0 0 80px rgba(244,242,238,.15);
-    margin-bottom: 46px;
-    animation: rise 3s cubic-bezier(.33,0,.2,1) forwards;
-    opacity: 0;
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(40px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .eyebrow {
-    font-size: .72rem;
+  .kicker {
+    font-size: .7rem;
     letter-spacing: .45em;
     text-transform: uppercase;
-    color: var(--gray-300);
-    margin-bottom: 18px;
+    color: var(--gray-500);
+    margin-bottom: 22px;
   }
-  header h1 {
+  .riddle {
     font-family: var(--serif);
     font-weight: 300;
-    font-size: clamp(3rem, 10vw, 6rem);
-    line-height: 1;
+    font-size: clamp(1.6rem, 4.4vw, 2.3rem);
+    line-height: 1.3;
+    margin-bottom: 38px;
   }
-  header p {
+  .riddle em { color: var(--gray-300); }
+  .area { margin: 0 auto 26px; }
+  .feedback {
     font-family: var(--serif);
     font-style: italic;
-    font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+    font-size: 1.2rem;
     color: var(--gray-300);
-    margin-top: 22px;
-    max-width: 520px;
+    min-height: 1.7em;
+    margin-bottom: 10px;
   }
-  .progress {
-    margin-top: 44px;
-    font-size: .7rem;
-    letter-spacing: .4em;
-    text-transform: uppercase;
-    color: var(--gray-500);
+  .feedback.pop { animation: pop .45s ease; }
+  @keyframes pop {
+    0% { transform: scale(.94); opacity: .2; }
+    100% { transform: scale(1); opacity: 1; }
   }
-  .progress-bar {
-    width: 220px; height: 1px;
-    background: var(--gray-700);
-    margin: 14px auto 0;
-    position: relative;
-  }
-  .progress-bar span {
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 0%;
-    background: var(--white);
-    transition: width 1s ease;
-  }
-
-  /* ---------- CHARADAS ---------- */
-  main { padding: 40px 24px 120px; }
-  .list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
-
-  .card {
-    border: 1px solid var(--gray-700);
-    background: linear-gradient(to bottom, var(--gray-900), var(--black));
-    padding: 44px 40px 40px;
-    position: relative;
-    transition: border-color .8s ease;
-  }
-  .card.solved { border-color: var(--gray-300); }
-  .card .num {
-    font-family: var(--serif);
-    font-size: 1rem;
-    color: var(--gray-500);
-    margin-bottom: 16px;
-    display: flex; align-items: center; gap: 14px;
-  }
-  .card .num::after { content: ""; flex: 1; height: 1px; background: var(--gray-700); }
-  .card .riddle {
-    font-family: var(--serif);
-    font-size: clamp(1.35rem, 3vw, 1.7rem);
-    line-height: 1.45;
-    margin-bottom: 30px;
-  }
-
-  .guess {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .guess input {
-    flex: 1;
-    min-width: 0;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--gray-500);
-    color: var(--white);
-    font-family: var(--serif);
-    font-size: 1.25rem;
-    padding: 10px 2px;
-    outline: none;
-    transition: border-color .4s ease;
-  }
-  .guess input::placeholder { color: var(--gray-500); font-style: italic; }
-  .guess input:focus { border-color: var(--white); }
-  .guess input.wrong { animation: shake .45s ease; border-color: var(--gray-300); }
-  @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    20% { transform: translateX(-6px); }
-    40% { transform: translateX(6px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
-  }
-
-  .btn {
-    font-family: var(--sans);
-    font-size: .7rem;
-    letter-spacing: .28em;
-    text-transform: uppercase;
-    padding: 14px 22px;
-    border: 1px solid var(--white);
-    background: var(--white);
-    color: var(--black);
-    cursor: pointer;
-    transition: background .4s ease, color .4s ease;
-    white-space: nowrap;
-  }
-  .btn:hover, .btn:focus-visible { background: transparent; color: var(--white); outline: none; }
-
-  .actions { display: flex; gap: 22px; flex-wrap: wrap; }
-  .link {
+  .hint-btn {
     background: none; border: none;
-    color: var(--gray-300);
-    font-family: var(--sans);
+    color: var(--gray-500);
     font-size: .68rem;
     letter-spacing: .3em;
     text-transform: uppercase;
@@ -209,63 +126,278 @@
     border-bottom: 1px solid transparent;
     transition: color .4s ease, border-color .4s ease;
   }
-  .link:hover, .link:focus-visible { color: var(--white); border-color: var(--white); outline: none; }
-
-  .feedback {
-    font-family: var(--serif);
-    font-style: italic;
-    color: var(--gray-300);
-    font-size: 1.1rem;
-    min-height: 1.6em;
-    margin-top: 8px;
-  }
+  .hint-btn:hover, .hint-btn:focus-visible { color: var(--white); border-color: var(--white); outline: none; }
   .hint {
     display: none;
     font-family: var(--serif);
     font-style: italic;
-    color: var(--gray-300);
     font-size: 1.15rem;
-    margin-top: 14px;
-    padding-left: 16px;
-    border-left: 1px solid var(--gray-500);
+    color: var(--gray-300);
+    margin-top: 12px;
   }
-  .hint.show { display: block; animation: fadeUp .8s ease forwards; }
+  .hint.show { display: block; animation: fadeUp .7s ease both; }
 
-  .reveal-box {
+  .success {
     display: none;
     margin-top: 10px;
-    padding-top: 28px;
+    padding-top: 34px;
     border-top: 1px solid var(--gray-700);
   }
-  .reveal-box.show { display: block; animation: fadeUp 1.2s ease forwards; }
-  .reveal-box .answer {
+  .success.show { display: block; animation: fadeUp 1.1s ease both; }
+  .success .big {
     font-family: var(--serif);
     font-weight: 300;
     font-size: clamp(2.2rem, 6vw, 3.2rem);
     line-height: 1.1;
     margin-bottom: 14px;
   }
-  .reveal-box .note {
+  .success .note {
     font-family: var(--serif);
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: #dcd9d3;
+    margin-bottom: 34px;
   }
-  .card.solved .guess, .card.solved .actions, .card.solved .feedback { display: none; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
+  .btn {
+    font-size: .74rem;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    padding: 16px 34px;
+    border: 1px solid var(--white);
+    background: var(--white);
+    color: var(--black);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background .4s ease, color .4s ease;
+  }
+  .btn:hover, .btn:focus-visible { background: transparent; color: var(--white); outline: none; }
+  .btn.ghost { background: transparent; color: var(--white); }
+  .btn.ghost:hover, .btn.ghost:focus-visible { background: var(--white); color: var(--black); }
+
+  .options { display: flex; flex-direction: column; gap: 12px; max-width: 380px; margin: 0 auto; }
+  .options .btn { width: 100%; }
+
+  /* ---------- 1: SOL NO CANTO ---------- */
+  .corner-sun {
+    position: fixed;
+    right: 22px; bottom: 26px;
+    width: 46px; height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: var(--white);
+    cursor: pointer;
+    z-index: 45;
+    box-shadow: 0 0 0 0 rgba(244,242,238,.35);
+    animation: glow 2.6s ease-in-out infinite;
+  }
+  .corner-sun::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 8px;
+    height: 12px;
+    background: repeating-linear-gradient(to bottom, var(--black) 0 2px, transparent 2px 5px);
+    border-radius: 0 0 23px 23px;
+  }
+  @keyframes glow {
+    0%,100% { box-shadow: 0 0 10px 2px rgba(244,242,238,.25); }
+    50% { box-shadow: 0 0 28px 10px rgba(244,242,238,.35); }
+  }
+  .corner-sun.setting {
+    animation: setDown 2.4s cubic-bezier(.5,0,.3,1) forwards;
+    pointer-events: none;
+  }
+  @keyframes setDown {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(90px); opacity: 0; box-shadow: 0 0 40px 18px rgba(244,242,238,.2); }
+  }
+  .mini-horizon {
+    width: 100%; max-width: 420px; height: 160px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--gray-500);
+    background: linear-gradient(to bottom, var(--black), #1d1d1d 70%, #3a3a3a);
+  }
+  .mini-horizon .sky-sun {
+    position: absolute; left: 50%; bottom: -60px;
+    width: 110px; height: 110px;
+    margin-left: -55px;
+    border-radius: 50%;
+    background: var(--white);
+    opacity: 0;
+    transition: bottom 2.8s cubic-bezier(.3,0,.2,1) .4s, opacity 1.5s ease .4s;
+  }
+  .mini-horizon .sky-sun::after {
+    content: "";
+    position: absolute; left: 0; right: 0; top: 40%; bottom: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0 5px, var(--black) 5px 8px);
+  }
+  .mini-horizon.on .sky-sun { bottom: -40px; opacity: 1; }
+
+  /* ---------- 2: CORES ---------- */
+  .color-box {
+    max-width: 420px;
+    margin: 0 auto 26px;
+    padding: 30px 20px;
+    border: 3px solid;
+    border-image: linear-gradient(90deg, #ff3fa4, #ffd400, #39ff14, #00c3ff) 1;
+    background: linear-gradient(135deg, #ff3fa4 0%, #ff8a00 35%, #ffd400 60%, #39ff14 100%);
+    color: #111;
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 500;
+    transition: filter 2s ease, background 2s ease;
+  }
+  .color-box.bw { filter: grayscale(1) contrast(1.1); }
+  .color-box.done {
+    filter: none;
+    background: var(--white);
+    border-image: linear-gradient(90deg, var(--white), var(--white)) 1;
+    color: var(--black);
+  }
+  .swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 420px; margin: 0 auto; }
+  .swatch {
+    padding: 14px 10px;
+    font-size: .72rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    border: 1px solid var(--gray-500);
+    cursor: pointer;
+    color: #111;
+    font-weight: 500;
+    transition: transform .2s ease;
+  }
+  .swatch:hover, .swatch:focus-visible { transform: translateY(-2px); outline: none; }
+  .swatch.pink { background: #ff3fa4; }
+  .swatch.lime { background: #b6ff3b; }
+  .swatch.orange { background: #ff8a00; }
+  .swatch.bw { background: linear-gradient(90deg, var(--black) 50%, var(--white) 50%); color: transparent; position: relative; }
+  .swatch.bw::after {
+    content: "Preto e branco";
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white);
+    mix-blend-mode: difference;
+  }
+
+  /* ---------- 3: CORAÇÃO ---------- */
+  .heart-btn {
+    background: none; border: none;
+    cursor: pointer;
+    width: 150px; height: 150px;
+    display: block;
+    margin: 0 auto;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .heart-btn svg {
+    width: 100%; height: 100%;
+    animation: beat var(--speed, 1.4s) ease-in-out infinite;
+    transform-origin: center;
+    filter: drop-shadow(0 0 var(--glow, 6px) rgba(244,242,238,.4));
+  }
+  @keyframes beat {
+    0%, 100% { transform: scale(var(--s, 1)); }
+    15% { transform: scale(calc(var(--s, 1) * 1.12)); }
+    30% { transform: scale(var(--s, 1)); }
+    45% { transform: scale(calc(var(--s, 1) * 1.08)); }
+  }
+  .heart-btn.crazy svg { animation: crazy .25s linear infinite; }
+  @keyframes crazy {
+    0% { transform: scale(1.5) rotate(-4deg); }
+    50% { transform: scale(1.7) rotate(4deg); }
+    100% { transform: scale(1.5) rotate(-4deg); }
+  }
+  .tum {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gray-500);
+    margin-top: 16px;
+    letter-spacing: .1em;
+  }
+
+  /* ---------- 4: LETRAS ---------- */
+  .slots { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; }
+  .slot {
+    width: 66px; height: 80px;
+    border-bottom: 2px solid var(--gray-500);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 400;
+    transition: border-color .4s ease;
+  }
+  .slot.filled { border-color: var(--white); }
+  .slots.win .slot { animation: hop .6s ease both; }
+  .slots.win .slot:nth-child(2) { animation-delay: .12s; }
+  .slots.win .slot:nth-child(3) { animation-delay: .24s; }
+  @keyframes hop {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  .tiles { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+  .tile {
+    width: 58px; height: 58px;
+    border: 1px solid var(--white);
+    background: transparent;
+    color: var(--white);
+    font-family: var(--serif);
+    font-size: 1.9rem;
+    cursor: pointer;
+    transition: background .3s ease, color .3s ease, opacity .3s ease;
+  }
+  .tile:hover, .tile:focus-visible { background: var(--white); color: var(--black); outline: none; }
+  .tile.used { opacity: .15; pointer-events: none; }
+  .clear-btn {
+    background: none; border: none;
+    color: var(--gray-500);
+    font-size: .66rem; letter-spacing: .3em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  .clear-btn:hover { color: var(--white); }
+
+  /* ---------- 5: LANTERNA ---------- */
+  .dark-box {
+    position: relative;
+    width: 100%; max-width: 520px;
+    height: 320px;
+    margin: 0 auto;
+    background: #151515;
+    border: 1px solid var(--gray-700);
+    overflow: hidden;
+    touch-action: none;
+    cursor: none;
+    --x: -200px; --y: -200px;
+  }
+  .dark-box .word {
+    position: absolute;
+    background: none; border: none;
+    color: var(--white);
+    font-family: var(--serif);
+    cursor: none;
+    padding: 6px 10px;
+  }
+  .dark-box .word.small { font-size: 1.05rem; font-style: italic; color: var(--gray-300); }
+  .dark-box .word.target { font-size: 2.1rem; font-weight: 500; letter-spacing: .12em; }
+  .dark-box .shade {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: var(--black);
+    -webkit-mask: radial-gradient(circle at var(--x) var(--y), transparent 0, transparent 55px, #000 85px);
+            mask: radial-gradient(circle at var(--x) var(--y), transparent 0, transparent 55px, #000 85px);
+    transition: opacity 1.5s ease;
+  }
+  .dark-box.lit .shade { opacity: 0; }
+  .dark-box.lit, .dark-box.lit .word { cursor: default; }
+  .dark-box .tip {
+    position: absolute; left: 0; right: 0; bottom: 14px;
+    font-size: .62rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--gray-500);
+    pointer-events: none;
+    z-index: 2;
   }
 
   /* ---------- FINAL ---------- */
-  .final {
-    display: none;
-    max-width: 720px;
-    margin: 90px auto 0;
-    text-align: center;
-  }
-  .final.show { display: block; animation: fadeUp 1.6s ease forwards; }
-  .final .end-sun {
+  .end-sun {
     width: 160px; height: 80px;
     margin: 0 auto 46px;
     border-radius: 160px 160px 0 0;
@@ -276,212 +408,381 @@
   .final h2 {
     font-family: var(--serif);
     font-weight: 300;
-    font-size: clamp(2.2rem, 6vw, 3.8rem);
-    line-height: 1.15;
+    font-size: clamp(2.3rem, 6.5vw, 4rem);
+    line-height: 1.12;
     margin-bottom: 24px;
   }
   .final p {
     font-family: var(--serif);
     font-style: italic;
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     color: var(--gray-300);
     margin-bottom: 50px;
   }
-  .final .btn { text-decoration: none; display: inline-block; padding: 18px 40px; }
-
-  footer {
-    text-align: center;
-    padding: 50px 24px 60px;
-    font-size: .68rem;
-    letter-spacing: .4em;
-    text-transform: uppercase;
-    color: var(--gray-500);
-  }
+  .final .row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
   @media (max-width: 640px) {
-    .card { padding: 34px 22px 30px; }
-    .guess { flex-direction: column; }
-    .guess .btn { width: 100%; }
-    .back { top: 14px; left: 14px; }
+    .slot { width: 56px; height: 70px; font-size: 2.6rem; }
+    .dark-box { height: 300px; }
+    .corner-sun { right: 16px; bottom: 18px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-    .top-sun { opacity: 1; }
+    *, *::before, *::after { animation-duration: .01s !important; transition-duration: .01s !important; }
   }
 </style>
 </head>
 <body>
 
-<a class="back" href="index.html">← Voltar</a>
-
-<header>
-  <div class="top-sun" aria-hidden="true"></div>
-  <div class="eyebrow">Parte dois</div>
-  <h1>Charadas para Ana</h1>
-  <p>Cada resposta diz um pouco do que eu sinto. Tente adivinhar — e se ficar difícil, tem dica.</p>
-  <div class="progress">
-    <span id="count">0</span> de <span id="total">0</span> descobertas
-    <div class="progress-bar"><span id="bar"></span></div>
-  </div>
-</header>
+<div class="topbar">
+  <a class="back" href="index.html">← Voltar</a>
+  <div class="dots" id="dots" aria-hidden="true"></div>
+</div>
 
 <main>
-  <div class="list" id="list"></div>
-
-  <div class="final" id="final">
-    <div class="end-sun" aria-hidden="true"></div>
-    <h2>Você descobriu todas.</h2>
-    <p>Mas a resposta mais importante você já sabia:<br>é você que eu escolho.</p>
-    <a class="btn" href="index.html">Voltar ao começo</a>
-  </div>
+  <div class="stage" id="stage"></div>
 </main>
 
-<footer>Kelvin &nbsp;·&nbsp; para Ana</footer>
-
 <script>
-  // Cada charada: pergunta, respostas aceitas, dica, resposta exibida e recado
-  const riddles = [
-    {
-      q: "Sou o fim do dia, mas não sou triste. Pinto o céu antes de ir embora e sempre prometo voltar amanhã. O que sou?",
-      answers: ["por do sol", "pordosol", "o por do sol", "crepusculo", "entardecer", "fim de tarde"],
-      hint: "Você ama me ver da janela, no fim da tarde.",
-      answer: "O pôr do sol",
-      note: "E, assim como ele, eu também volto todos os dias."
-    },
-    {
-      q: "Não tenho nenhuma cor, mas guardo as fotos mais bonitas e os filmes mais clássicos. Mesmo assim, você me acha perfeito. O que sou?",
-      answers: ["preto e branco", "preto branco", "o preto e branco", "pb", "p&b", "preto & branco"],
-      hint: "É o estilo deste site inteiro.",
-      answer: "O preto e branco",
-      note: "Simples, elegante e atemporal. Igual a você."
-    },
-    {
-      q: "Tenho três letras. Começo e termino do mesmo jeito, posso ser lida de trás pra frente e sou o nome mais bonito que eu conheço. Quem sou?",
-      answers: ["ana"],
-      hint: "Você escreve ele todo dia, sem perceber.",
-      answer: "Ana",
-      note: "De frente ou de trás pra frente, continua perfeito."
-    },
-    {
-      q: "Não faço barulho para ninguém, mas disparo toda vez que o seu nome aparece na tela do meu celular. O que sou?",
-      answers: ["coracao", "meu coracao", "o coracao", "o meu coracao"],
-      hint: "Fico do lado esquerdo do peito.",
-      answer: "O meu coração",
-      note: "E ele não está brincando. Nem eu."
-    },
-    {
-      q: "Não se compra, não se força e não nasce pronta. Se constrói devagar, um dia de cada vez — e é o que eu mais quero ter com você. O que é?",
-      answers: ["confianca", "a confianca"],
-      hint: "É a base de tudo que é sério.",
-      answer: "Confiança",
-      note: "Eu quero construir isso com você, sem pressa e com verdade."
-    },
-    {
-      q: "Quanto mais eu dou, mais eu tenho. Não acaba, não cansa e não pede nada em troca. O que é?",
-      answers: ["carinho", "o carinho", "amor", "o amor", "afeto", "cuidado"],
-      hint: "Você recebe um pouco dele em cada linha deste site.",
-      answer: "Carinho",
-      note: "E o meu por você só aumenta."
-    },
-    {
-      q: "Enquanto existir pôr do sol, sempre vai existir alguém pensando em você. Quem é?",
-      answers: ["eu", "kelvin", "o kelvin", "e o kelvin", "sou eu", "e voce kelvin"],
-      hint: "Leia de novo o final da primeira página.",
-      answer: "Eu.",
-      note: "Hoje, amanhã e em todo fim de tarde."
-    }
-  ];
+  const stage = document.getElementById('stage');
+  const dotsEl = document.getElementById('dots');
+  let current = 0;
+  let cleanup = null;
 
-  const list = document.getElementById('list');
-  const countEl = document.getElementById('count');
-  const bar = document.getElementById('bar');
-  const finalEl = document.getElementById('final');
-  document.getElementById('total').textContent = riddles.length;
-  let solved = 0;
+  const heartSVG = `
+    <svg viewBox="0 0 100 92" aria-hidden="true">
+      <path d="M50 88 C20 66 4 50 4 30 C4 14 16 4 29 4 C39 4 46 9 50 17 C54 9 61 4 71 4 C84 4 96 14 96 30 C96 50 80 66 50 88 Z"
+            fill="#f4f2ee"/>
+    </svg>`;
 
-  // Remove acentos, pontuação e espaços extras para comparar respostas
-  function normalize(text) {
-    return text
-      .toLowerCase()
-      .normalize('NFD').replace(/[̀-ͯ]/g, '')
-      .replace(/[^a-z0-9& ]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
+  // ---------------- AS CHARADAS ----------------
+  const levels = [
+    {
+      // 1 — Pôr do sol escondido no canto
+      text: `Eu apareço todo fim de tarde, deixo o céu lindo e vou embora sem me despedir.<br><em>(O Kelvin não faz isso, fica tranquila.)</em><br>Eu estou escondido nesta tela. Me acha e me dá um toque.`,
+      hint: "Olha bem nos cantos da tela...",
+      win: { big: "O pôr do sol.", note: "Você achou. Agora imagina ele com a gente assistindo junto." },
+      build(area, solve, say) {
+        area.innerHTML = `<div class="mini-horizon" id="horizon"><div class="sky-sun"></div></div>`;
+        const sun = document.createElement('button');
+        sun.className = 'corner-sun';
+        sun.setAttribute('aria-label', 'Sol');
+        document.body.appendChild(sun);
 
-  const wrongMessages = [
-    "Quase... tenta mais uma vez.",
-    "Não é bem isso. Pensa com o coração.",
-    "Hmm, chegou perto. Quer uma dica?",
-    "Ainda não. Mas eu gosto de te ver tentando."
-  ];
+        let misses = 0;
+        const missLines = [
+          "Aí não tem sol. Só saudade.",
+          "Quente... mas não é aí.",
+          "Tá parecendo eu procurando a chave de casa."
+        ];
+        const onMiss = (e) => {
+          if (e.target === sun || e.target.closest('button, a')) return;
+          say(missLines[misses % missLines.length]);
+          misses++;
+        };
+        area.addEventListener('click', onMiss);
 
-  function markSolved(card) {
-    if (card.classList.contains('solved')) return;
-    card.classList.add('solved');
-    card.querySelector('.reveal-box').classList.add('show');
-    solved++;
-    countEl.textContent = solved;
-    bar.style.width = (solved / riddles.length * 100) + '%';
-    if (solved === riddles.length) {
-      setTimeout(() => {
-        finalEl.classList.add('show');
-        finalEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 1200);
-    }
-  }
-
-  riddles.forEach((r, i) => {
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="num">${String(i + 1).padStart(2, '0')}</div>
-      <p class="riddle">${r.q}</p>
-      <form class="guess">
-        <input type="text" placeholder="Sua resposta..." aria-label="Resposta da charada ${i + 1}" autocomplete="off">
-        <button class="btn" type="submit">Responder</button>
-      </form>
-      <div class="actions">
-        <button class="link hint-btn" type="button">Quero uma dica</button>
-        <button class="link show-btn" type="button">Ver resposta</button>
-      </div>
-      <p class="feedback" aria-live="polite"></p>
-      <p class="hint">${r.hint}</p>
-      <div class="reveal-box">
-        <div class="answer">${r.answer}</div>
-        <p class="note">${r.note}</p>
-      </div>
-    `;
-
-    const form = card.querySelector('form');
-    const input = card.querySelector('input');
-    const feedback = card.querySelector('.feedback');
-    const accepted = r.answers.map(normalize);
-    let tries = 0;
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const guess = normalize(input.value);
-      if (!guess) return;
-      if (accepted.includes(guess)) {
-        markSolved(card);
-      } else {
-        feedback.textContent = wrongMessages[tries % wrongMessages.length];
-        tries++;
-        input.classList.remove('wrong');
-        void input.offsetWidth;
-        input.classList.add('wrong');
+        sun.addEventListener('click', () => {
+          sun.classList.add('setting');
+          document.getElementById('horizon').classList.add('on');
+          setTimeout(solve, 1800);
+        });
+        return () => { sun.remove(); area.removeEventListener('click', onMiss); };
       }
+    },
+    {
+      // 2 — Escolher a cor certa
+      text: `Alguém deixou esta charada <em>colorida demais</em>. Eu sei que você não ia aprovar.<br>Escolhe a única cor que combina com você.`,
+      hint: "É a cor deste site inteiro. Ou melhor, a falta dela.",
+      win: { big: "Preto e branco.", note: "Agora sim. Simples, elegante e atemporal, igual a você." },
+      build(area, solve, say) {
+        area.innerHTML = `
+          <div class="color-box" id="cbox">Esta caixa está horrível e sabe disso.</div>
+          <div class="swatches">
+            <button class="swatch pink" data-c="pink">Rosa choque</button>
+            <button class="swatch lime" data-c="lime">Verde limão</button>
+            <button class="swatch orange" data-c="orange">Laranja</button>
+            <button class="swatch bw" data-c="bw" aria-label="Preto e branco">Preto e branco</button>
+          </div>`;
+        const lines = {
+          pink: "Rosa choque? Ana, eu te conheço melhor que isso.",
+          lime: "Verde limão... nem a parede da minha casa aceitaria.",
+          orange: "Laranja só no pôr do sol. E olhe lá."
+        };
+        const box = area.querySelector('#cbox');
+        area.querySelectorAll('.swatch').forEach(b => b.addEventListener('click', () => {
+          const c = b.dataset.c;
+          if (c !== 'bw') { say(lines[c]); return; }
+          box.classList.add('bw');
+          box.textContent = "Muito melhor. Obrigado.";
+          setTimeout(() => box.classList.add('done'), 1600);
+          setTimeout(solve, 2200);
+        }));
+      }
+    },
+    {
+      // 3 — Coração que acelera
+      text: `Tem uma coisa aqui que fica <em>doida</em> toda vez que você chega perto.<br>Clica nela algumas vezes e vê o que acontece.`,
+      hint: "Ela fica do lado esquerdo do meu peito.",
+      win: { big: "O meu coração.", note: "É exatamente isso que acontece quando o seu nome aparece no meu celular." },
+      build(area, solve, say) {
+        area.innerHTML = `
+          <button class="heart-btn" id="heart" aria-label="Coração">${heartSVG}</button>
+          <div class="tum" id="tum">tum... tum...</div>`;
+        const heart = area.querySelector('#heart');
+        const tum = area.querySelector('#tum');
+        const steps = [
+          { speed: '1s',   s: 1.08, glow: '10px', tum: "tum-tum... tum-tum...", say: "Opa, acelerou." },
+          { speed: '.7s',  s: 1.16, glow: '16px', tum: "tum-tum-tum-tum", say: "Calma, coração..." },
+          { speed: '.45s', s: 1.26, glow: '24px', tum: "TUM-TUM-TUM-TUM", say: "Ana, para, ele não aguenta." },
+          { speed: '.3s',  s: 1.36, glow: '34px', tum: "TUMTUMTUMTUMTUM", say: "Tá bom, você venceu." }
+        ];
+        let clicks = 0;
+        heart.addEventListener('click', () => {
+          if (clicks >= steps.length) return;
+          const st = steps[clicks];
+          const svg = heart.querySelector('svg');
+          svg.style.setProperty('--speed', st.speed);
+          svg.style.setProperty('--s', st.s);
+          svg.style.setProperty('--glow', st.glow);
+          tum.textContent = st.tum;
+          say(st.say);
+          clicks++;
+          if (clicks === steps.length) {
+            heart.classList.add('crazy');
+            setTimeout(solve, 1500);
+          }
+        });
+      }
+    },
+    {
+      // 4 — Montar o nome
+      text: `Sou um nome de três letras que dá pra ler <em>de trás pra frente</em> e continua perfeito.<br>As letras caíram aqui embaixo. Monta pra mim.`,
+      hint: "É o nome da pessoa mais bonita lendo isto agora.",
+      win: { big: "ANA.", note: "De frente, de trás pra frente, de qualquer jeito: o nome mais bonito que eu conheço." },
+      build(area, solve, say) {
+        const letters = ['N', 'X', 'A', 'K', 'A'];
+        area.innerHTML = `
+          <div class="slots" id="slots"><div class="slot"></div><div class="slot"></div><div class="slot"></div></div>
+          <div class="tiles" id="tiles">${letters.map((l, i) => `<button class="tile" data-i="${i}">${l}</button>`).join('')}</div>
+          <button class="clear-btn" id="clear">Apagar</button>`;
+        const slots = [...area.querySelectorAll('.slot')];
+        const tiles = [...area.querySelectorAll('.tile')];
+        let word = [];
+        let used = [];
+
+        function reset() {
+          word = []; used = [];
+          slots.forEach(s => { s.textContent = ''; s.classList.remove('filled'); });
+          tiles.forEach(t => t.classList.remove('used'));
+        }
+        area.querySelector('#clear').addEventListener('click', reset);
+
+        tiles.forEach(t => t.addEventListener('click', () => {
+          if (word.length >= 3) return;
+          const l = t.textContent;
+          if (l === 'X') { say("X? Isso aqui não é prova de matemática."); return; }
+          if (l === 'K') { say("K de Kelvin? Fofo, mas a charada é sobre você."); return; }
+          word.push(l); used.push(t);
+          t.classList.add('used');
+          const slot = slots[word.length - 1];
+          slot.textContent = l;
+          slot.classList.add('filled');
+          if (word.length === 3) {
+            if (word.join('') === 'ANA') {
+              area.querySelector('#slots').classList.add('win');
+              setTimeout(solve, 900);
+            } else {
+              say("Hmm, esse nome eu não conheço. Tenta de novo.");
+              setTimeout(reset, 900);
+            }
+          }
+        }));
+      }
+    },
+    {
+      // 5 — Lanterna no escuro
+      text: `Ficou escuro. Mas eu escondi aqui a coisa que <em>mais brilha</em> na minha vida.<br>Usa o dedo (ou o mouse) como lanterna e encontra.`,
+      hint: "Não é um objeto. É uma pessoa. E ela está segurando o celular agora.",
+      win: { big: "Você.", note: "Era você esse tempo todo." },
+      build(area, solve, say) {
+        area.innerHTML = `
+          <div class="dark-box" id="dark">
+            <button class="word small" data-w="boleto">um boleto</button>
+            <button class="word small" data-w="meia">uma meia perdida</button>
+            <button class="word small" data-w="controle">o controle da TV</button>
+            <button class="word small" data-w="pombo">um pombo</button>
+            <button class="word target" data-w="voce">VOCÊ</button>
+            <div class="shade"></div>
+            <div class="tip">Passe o dedo para iluminar</div>
+          </div>`;
+        const dark = area.querySelector('#dark');
+        const words = [...dark.querySelectorAll('.word')];
+
+        // Espalha as palavras em posições sem sobreposição grosseira
+        const spots = [
+          [4, 8], [52, 8], [4, 30], [52, 30],
+          [4, 52], [52, 52], [4, 72], [52, 72]
+        ].sort(() => Math.random() - .5);
+        words.forEach((w, i) => {
+          w.style.left = spots[i][0] + '%';
+          w.style.top = spots[i][1] + '%';
+        });
+
+        const move = (e) => {
+          const r = dark.getBoundingClientRect();
+          dark.style.setProperty('--x', (e.clientX - r.left) + 'px');
+          dark.style.setProperty('--y', (e.clientY - r.top) + 'px');
+          dark.querySelector('.tip').style.opacity = 0;
+        };
+        dark.addEventListener('pointermove', move);
+        dark.addEventListener('pointerdown', move);
+
+        const lines = {
+          boleto: "Boleto não brilha, Ana. Boleto assusta.",
+          meia: "Achei a meia que sumiu em 2019! Mas não era isso.",
+          controle: "O controle da TV... útil, mas não brilha tanto.",
+          pombo: "Um pombo. Ele só pensa em pipoca."
+        };
+        words.forEach(w => w.addEventListener('click', () => {
+          if (w.dataset.w === 'voce') {
+            dark.classList.add('lit');
+            setTimeout(solve, 1300);
+          } else {
+            say(lines[w.dataset.w]);
+          }
+        }));
+      }
+    },
+    {
+      // 6 — Quem pensa em você
+      text: `Quem é que pensa em você todo fim de tarde, quando o sol vai embora?`,
+      hint: "Leia de novo o final da primeira página.",
+      win: { big: "Eu.", note: "Hoje, amanhã e em todo fim de tarde." },
+      build(area, solve, say) {
+        const opts = [
+          { id: 'carteiro', label: 'O carteiro' },
+          { id: 'kelvin', label: 'O Kelvin' },
+          { id: 'meteoro', label: 'O moço da previsão do tempo' },
+          { id: 'pombo', label: 'O pombo da praça' }
+        ].sort(() => Math.random() - .5);
+        area.innerHTML = `<div class="options">${opts.map(o => `<button class="btn ghost" data-o="${o.id}">${o.label}</button>`).join('')}</div>`;
+        const lines = {
+          carteiro: "O carteiro só pensa nas suas encomendas.",
+          meteoro: "Ele pensa no pôr do sol. Em você, não. Isso é comigo.",
+          pombo: "O pombo de novo? Ele só quer pipoca, Ana."
+        };
+        area.querySelectorAll('[data-o]').forEach(b => b.addEventListener('click', () => {
+          if (b.dataset.o === 'kelvin') solve();
+          else say(lines[b.dataset.o]);
+        }));
+      }
+    },
+    {
+      // 7 — Pegadinha final
+      text: `Última, e essa é a mais difícil.<br>O que eu quero com você?`,
+      hint: "Não tem resposta errada nesta aqui.",
+      win: { big: "Pegadinha.", note: "Era tudo isso. E mais um pouco." },
+      build(area, solve) {
+        area.innerHTML = `
+          <div class="options">
+            <button class="btn ghost">Te fazer rir</button>
+            <button class="btn ghost">Te respeitar, sempre</button>
+            <button class="btn ghost">Ver o pôr do sol do seu lado</button>
+          </div>`;
+        area.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+          area.querySelectorAll('button').forEach(x => { x.classList.remove('ghost'); x.disabled = true; });
+          setTimeout(solve, 700);
+        }));
+      }
+    }
+  ];
+
+  // ---------------- MOTOR ----------------
+  function renderDots() {
+    dotsEl.innerHTML = levels.map((_, i) =>
+      `<span class="${i < current ? 'done' : ''} ${i === current ? 'current' : ''}"></span>`
+    ).join('');
+  }
+
+  function showLevel(i) {
+    if (cleanup) { cleanup(); cleanup = null; }
+    current = i;
+    renderDots();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const lv = levels[i];
+    stage.style.animation = 'none';
+    void stage.offsetWidth;
+    stage.style.animation = '';
+    stage.innerHTML = `
+      <div class="kicker">Charada ${i + 1} de ${levels.length}</div>
+      <h1 class="riddle">${lv.text}</h1>
+      <div class="area" id="area"></div>
+      <p class="feedback" id="feedback" aria-live="polite"></p>
+      <button class="hint-btn" id="hintBtn">Quero uma dica</button>
+      <p class="hint" id="hint">${lv.hint}</p>
+      <div class="success" id="success">
+        <div class="big">${lv.win.big}</div>
+        <p class="note">${lv.win.note}</p>
+        <button class="btn" id="next">${i === levels.length - 1 ? 'Ver o final' : 'Próxima'} &nbsp;→</button>
+      </div>`;
+
+    const area = stage.querySelector('#area');
+    const feedback = stage.querySelector('#feedback');
+    let solved = false;
+
+    const say = (msg) => {
+      feedback.textContent = msg;
+      feedback.classList.remove('pop');
+      void feedback.offsetWidth;
+      feedback.classList.add('pop');
+    };
+
+    const solve = () => {
+      if (solved) return;
+      solved = true;
+      feedback.textContent = '';
+      stage.querySelector('#hintBtn').style.display = 'none';
+      stage.querySelector('#hint').style.display = 'none';
+      const success = stage.querySelector('#success');
+      success.classList.add('show');
+      dotsEl.children[i].classList.add('done');
+      setTimeout(() => success.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+    };
+
+    stage.querySelector('#hintBtn').addEventListener('click', () => {
+      stage.querySelector('#hint').classList.add('show');
+    });
+    stage.querySelector('#next').addEventListener('click', () => {
+      if (i + 1 < levels.length) showLevel(i + 1);
+      else showFinal();
     });
 
-    card.querySelector('.hint-btn').addEventListener('click', () => {
-      card.querySelector('.hint').classList.add('show');
-    });
+    cleanup = lv.build(area, solve, say) || null;
+  }
 
-    card.querySelector('.show-btn').addEventListener('click', () => markSolved(card));
+  function showFinal() {
+    if (cleanup) { cleanup(); cleanup = null; }
+    current = levels.length;
+    renderDots();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    stage.style.animation = 'none';
+    void stage.offsetWidth;
+    stage.style.animation = '';
+    stage.innerHTML = `
+      <div class="final">
+        <div class="end-sun" aria-hidden="true"></div>
+        <h2>Você descobriu todas.</h2>
+        <p>Mas a resposta mais importante você já sabia:<br>é você que eu escolho.</p>
+        <div class="row">
+          <a class="btn" href="index.html">Voltar ao começo</a>
+          <button class="btn ghost" id="again">Jogar de novo</button>
+        </div>
+      </div>`;
+    stage.querySelector('#again').addEventListener('click', () => showLevel(0));
+  }
 
-    list.appendChild(card);
-  });
+  showLevel(0);
 </script>
 </body>
 </html>
